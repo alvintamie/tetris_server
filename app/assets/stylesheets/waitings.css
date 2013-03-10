@@ -1,0 +1,20 @@
+#home{
+	color:blue;
+	font-size:150%;
+}
+
+#vs{
+	color:#CC0000;
+	font-size:150%;
+	margin-left:100px;
+}
+
+#away{
+	color:green;
+	font-size:150%;
+	margin-left:100px;
+}
+
+#switch-away{
+	margin-left:200px;
+}

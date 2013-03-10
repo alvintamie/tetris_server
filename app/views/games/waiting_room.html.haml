@@ -1,0 +1,64 @@
+%h3 Waiting Room
+
+.div
+	%span{:id => 'home'}= @user.name
+	%span{:id => 'vs'} vs
+	%span{:id => 'away'}
+
+%br
+%br
+
+.switch.switch-large{"data-off-label" => "Not Ready", "data-on-label" => "Ready", "data-on" =>"success", "data-off" => "warning", :style => "width:250px", :id => "switch-home"}
+	%input{:checked => "", :type => "checkbox"}
+
+.switch.switch-large{"data-off-label" => "Not Ready", "data-on-label" => "Ready", "data-on" =>"success", "data-off" => "warning", :style => "width:250px", :id => "switch-away"}
+	%input{:checked => "", :disabled => "", :type => "checkbox"}
+
+%br
+%br
+=button_to "Cancel Game", dashboard_path, :confirm => "Are you sure you want to cancel the game?", :method => :get, :class => "btn btn-inverse"
+
+:javascript
+
+	(function worker() {
+	  $.ajax({
+	    url: '/games/opponent', 
+	    success: function(data) {
+	      console.log(data);
+	      data_away = data.away;
+	      data_home = data.home;
+	      $('#switch-home').bootstrapSwitch('setState', data_home.status == "ready");
+	      if(data_away.length != 0){
+	      	$('#away').text(data_away[0].name);
+	      	$('#switch-away').bootstrapSwitch('setState', data_away[0].status == 'ready');
+	      	if(data_away[0].status == 'ready' && data_home.status == 'ready'){
+	      		document.location.href = '/tetris'
+	      	}
+	      }
+	      else
+	      {
+	      	$('#away').text('');
+	      	$('#switch-away').bootstrapSwitch('setState', false);
+	      }
+	    },
+	    complete: function() {
+	      // Schedule the next request when the current one's complete
+	      console.log('retry opponent request')
+	      setTimeout(worker, 5000);
+	    }
+	  });
+	})();
+
+	$(function(){
+		$('#switch-home').on('switch-change', function (e, data) {
+			var $el = $(data.el);
+			data.value ? value = 'true' : value = 'false';
+			$.ajax({
+				url: '/games/ready?state='+value, 
+				success: function(data) {
+				  console.log("success sending ready")
+				},
+			});	
+		});
+	})
+

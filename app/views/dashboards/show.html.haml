@@ -1,0 +1,49 @@
+%strong All Games
+
+%table{:class => "table"}
+	%tr 
+		%th Player 
+		%th Message
+		%th Status
+		%th Secret Key
+		%th Actions
+	= form_tag join_dashboard_path, :id => 'form' do
+		= hidden_field_tag "secret_key", 'initial'
+		= hidden_field_tag "game_id", 'initial'
+		- @games.each do |game|
+			%tr
+				%td= game.users.first.name
+				%td= game.message
+				%td= game.status
+				- if game.is_waiting?
+					- if game.secret_key.empty?
+						%td= "Open"
+					- else
+						%td= "Private"
+					%td
+						%a.btn.btn-primary.btn-to-modal{"data-toggle" => "modal", :href => "#myModal", :role => "button", "data-id" => game.id} Join
+				- else
+					%td 
+					%td
+
+#myModal.modal.hide.fade{"aria-hidden" => "true", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+	.modal-header
+		%button.close{"aria-hidden" => "true", "data-dismiss" => "modal", :type => "button"} ×
+		%h3 Enter Secret Key
+	.modal-body
+		= text_field_tag 'tmp_secret_key'
+	.modal-footer
+		%button.btn.btn-warning{"aria-hidden" => "true", "data-dismiss" => "modal"} Cancel
+		= submit_tag "Join", :class => "btn btn-primary modal-submit"
+
+
+#chat_div
+
+
+
+:javascript
+	initialize_name("#{@name}")
+
+
+
+
