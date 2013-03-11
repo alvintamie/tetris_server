@@ -1,0 +1,19 @@
+%canvas#player_field.player_field{:height => "600", :width => "300"}
+	Your browser does not support the HTML5 canvas tag.
+#right
+	%canvas#next_player_block.next_player_block{:height => "150", :width => "150"}
+		D
+	%h3#score.score Score : 0
+	%canvas#saved_player_block.saved_player_block{:height => "150", :width => "150"}
+		D
+
+%canvas#opponent_field.opponent_field{:height => "600", :width => "300"}
+	Your browser does not support the HTML5 canvas tag.
+
+:javascript
+	set_worker(#{@user.id},#{@opponent.id})
+
+= javascript_include_tag "https://raw.github.com/alvi0010/tetris/master/field.js"
+= javascript_include_tag "https://raw.github.com/alvi0010/tetris/master/blocks.js"
+= javascript_include_tag "https://raw.github.com/alvi0010/tetris/master/tetris-v.js"
+

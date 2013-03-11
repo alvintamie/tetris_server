@@ -25,10 +25,10 @@ class User < ActiveRecord::Base
   
   def can_play?
     game = self.game
-    users = game.users
     return false if game.nil? || game.users.length != NUMBER_PLAYER
+    users = game.users
     users.each do |u|
-      return false if u.status != READY_STATUS
+      return false if u.status != READY_STATUS && u.status != IN_GAME_STATUS
     end
     return true
   end

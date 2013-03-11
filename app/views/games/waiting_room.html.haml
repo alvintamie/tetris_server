@@ -29,9 +29,10 @@
 	      data_home = data.home;
 	      $('#switch-home').bootstrapSwitch('setState', data_home.status == "ready");
 	      if(data_away.length != 0){
+	      	away = data_away[0].status == 'ready' || data_away[0].status == 'in_game'
 	      	$('#away').text(data_away[0].name);
-	      	$('#switch-away').bootstrapSwitch('setState', data_away[0].status == 'ready');
-	      	if(data_away[0].status == 'ready' && data_home.status == 'ready'){
+	      	$('#switch-away').bootstrapSwitch('setState', away);
+	      	if( away && data_home.status == 'ready'){
 	      		document.location.href = '/tetris'
 	      	}
 	      }

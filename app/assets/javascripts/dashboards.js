@@ -1,4 +1,4 @@
-var messagesRef = new Firebase('https://tetris-firebase.firebaseIO.com//');
+var messagesRef = new Firebase('https://chat-tetris-firebase.firebaseIO.com//');
 var name;
 
 $(document).ready(function(){
